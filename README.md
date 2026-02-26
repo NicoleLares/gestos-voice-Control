@@ -1,41 +1,33 @@
 # 🤖 COSMO – Sistema de Control por Voz y Gestos
 
-COSMO es un sistema de control inteligente que permite manejar un robot (WANDA) mediante **gestos de mano** y **comandos de voz** en español.
+COSMO es un sistema de control multimodal que permite manejar un robot (WANDA) mediante **gestos de mano** y **comandos de voz** en español.
 
-Integra:
+---
+
+## 🚀 Características
 
 - 🖐 Reconocimiento de gestos con MediaPipe
-- 🎙 Reconocimiento de voz con Web Speech API
-- 🧠 Interpretación semántica usando OpenAI
-- 🎛 Control centralizado de comandos
+- 🎙 Reconocimiento de voz (Web Speech API)
+- 🧠 Interpretación inteligente con OpenAI
 - 🔊 Respuesta por voz (Text-to-Speech)
+- 🎛 Control centralizado de comandos
+- 💤 Sistema de suspensión automática
+- 🔁 Cooldown anti-repetición
 
 ---
 
-## 🚀 Tecnologías Utilizadas
+## 🏗 Arquitectura
 
-- 🎯 Reconocimiento de manos: MediaPipe  
-- 🧠 Modelo de lenguaje: OpenAI (gpt-4o-mini)  
-- 🎙 Speech Recognition & Speech Synthesis: Web Speech API  
-- 🌐 JavaScript ES Modules  
-- 📦 CDN: jsDelivr  
+El sistema se divide en tres módulos principales:
 
----
+### 1️⃣ Gestos (MediaPipe)
 
-## 📂 Arquitectura del Proyecto
+- Captura de cámara
+- Detección de landmarks de la mano
+- Reconocimiento de gestos
+- Envío de comandos al controlador central
 
-El sistema está dividido en tres módulos principales:
-
----
-
-### 1️⃣ Reconocimiento de Gestos (MediaPipe)
-
-- Captura video desde la cámara.
-- Detecta landmarks de la mano.
-- Interpreta gestos específicos.
-- Envía el comando al `CommandController`.
-
-#### ✋ Gestos soportados
+Gestos soportados:
 
 | Gesto | Acción |
 |-------|--------|
@@ -49,19 +41,83 @@ El sistema está dividido en tres módulos principales:
 | 👌 OK derecha | 360° derecha |
 | 👌 OK izquierda | 360° izquierda |
 
-Incluye:
-- Confirmación de gesto (600 ms)
-- Cooldown anti-repetición
-- Modo suspendido tras inactividad
+---
+
+### 2️⃣ Voz (COSMO)
+
+- Reconocimiento continuo en español (`es-ES`)
+- Palabra clave de activación: **COSMO**
+- Interpretación con modelo `gpt-4o-mini`
+- Corrección semántica de sinónimos
+- Conversión de texto a voz
+
+Si no reconoce el comando devuelve:
+
+```
+Orden no reconocida
+```
 
 ---
 
-### 2️⃣ Control por Voz (COSMO)
+### 3️⃣ CommandController
 
-- Reconocimiento continuo en español (`es-ES`)
-- Palabra clave para despertar: **“COSMO”**
-- Interpretación de comandos mediante modelo `gpt-4o-mini`
-- Conversión de texto a voz
-- Sistema de suspensión automática tras 5 segundos de inactividad
+Objeto global que:
 
-El modelo está configurado para devolver **únicamente uno de los comandos válidos** o:
+- Unifica comandos de voz y gestos
+- Evita spam con cooldown
+- Evita repetición consecutiva
+- Permite integrar backend o robot real
+
+Ejemplo futuro:
+
+```js
+function enviarAlRobot(command) {
+  // WebSocket / HTTP / Serial
+}
+```
+
+---
+
+## 🔑 API Key
+
+La API Key se obtiene dinámicamente desde un servicio externo (MockAPI).
+
+⚠️ En producción se recomienda:
+- No exponer claves en frontend
+- Usar backend seguro
+- Implementar autenticación
+
+---
+
+## 🧠 Flujo del Sistema
+
+```
+Gestos  ─┐
+         ├──> CommandController ───> Robot / Backend
+Voz     ─┘
+```
+
+---
+
+## 🛠 Cómo Ejecutarlo
+
+1. Servir el proyecto en un servidor local (ej: Live Server).
+2. Permitir acceso a cámara y micrófono.
+3. Esperar presentación inicial de COSMO.
+4. Controlar mediante voz o gestos.
+
+---
+
+## 🔮 Mejoras Futuras
+
+- Conexión real con robot
+- Dashboard de monitoreo
+- Historial de comandos
+- Soporte multiusuario
+- Integración con hardware (Arduino / ESP32)
+
+---
+
+## 👨‍💻 Autor
+
+Proyecto de control multimodal con Inteligencia Artificial.
